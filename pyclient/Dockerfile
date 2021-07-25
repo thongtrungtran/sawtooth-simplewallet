@@ -17,17 +17,18 @@ FROM ubuntu:bionic
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN \
- apt-get update \
- && apt-get install -y -q curl gnupg \
- && curl -sSL 'http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x8AA7AF1F1091A5FD' | apt-key add -  \
- && echo 'deb [arch=amd64] http://repo.sawtooth.me/ubuntu/chime/stable bionic universe' >> /etc/apt/sources.list \
- && apt-get update
+RUN apt update && \
+    apt install sudo && \
+    sudo apt-get install software-properties-common -y && \
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD && \
+    sudo add-apt-repository 'deb [arch=amd64] http://repo.sawtooth.me/ubuntu/chime/stable bionic universe' && \
+    apt update
+
 
 RUN \
- apt-get install -y -q --no-install-recommends \
+ sudo apt-get install -y -q --no-install-recommends \
     apt-utils \
- && apt-get install -y -q \
+ && sudo apt-get install -y -q \
     apt-transport-https \
     build-essential \
     ca-certificates \
@@ -72,8 +73,8 @@ RUN \
     software-properties-common \
     python3-sawtooth-sdk \
     python3-sawtooth-cli \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
 
 WORKDIR /project/simplewallet/pyclient
 

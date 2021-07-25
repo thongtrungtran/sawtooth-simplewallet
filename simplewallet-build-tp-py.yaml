@@ -54,7 +54,7 @@ services:
 
   sawtooth-rest-api:
     container_name: rest-api
-    image: hyperledger/sawtooth-rest-api:1.2
+    image: hyperledger/sawtooth-rest-api:chime
     expose:
       - 8008
     ports:
@@ -67,14 +67,14 @@ services:
         --bind sawtooth-rest-api:8008
   
   settings-tp:
-    image: hyperledger/sawtooth-settings-tp:1.2
+    image: hyperledger/sawtooth-settings-tp:chime
     depends_on:
       - validator
     command: settings-tp -vv --connect tcp://validator:4004
 
   validator:
     container_name: validator
-    image: hyperledger/sawtooth-validator:1.2
+    image: hyperledger/sawtooth-validator:chime
     expose:
       - 4004
       - 5050
@@ -101,7 +101,7 @@ services:
           --bind consensus:tcp://eth0:5050 \
       "
   devmode-engine:
-    image: hyperledger/sawtooth-devmode-engine-rust:1.2
+    image: hyperledger/sawtooth-devmode-engine-rust:chime
     expose:
       - 5050
     ports:
